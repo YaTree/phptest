@@ -28,28 +28,29 @@
             <th>Public Post</th>
         </tr>
         <?php
-        if (!empty($_GET['id'])) {
-            $id = $_GET['id'];
-            $_SESSION['id'] = $id;
-            $id_exists = true;
-            $con = mysqli_connect("localhost", "root", "334675Ld!", "first_db"); //Connect to server
-            mysqli_select_db($con, "first_db") or die("Cannot connect to database"); //connect to database
-            $query = mysqli_query($con, "Select * from list Where id='$id'"); // SQL Query
-            $count = mysqli_num_rows($query);
-            if ($count > 0) {
-                while ($row = mysqli_fetch_array($query)) {
-                    Print "<tr>";
-                    Print '<td align="center">' . $row['id'] . "</td>";
-                    Print '<td align="center">' . $row['details'] . "</td>";
-                    Print '<td align="center">' . $row['date_posted'] . " - " . $row['time_posted'] . "</td>";
-                    Print '<td align="center">' . $row['date_edited'] . " - " . $row['time_edited'] . "</td>";
-                    Print '<td align="center">' . $row['public_'] . "</td>";
-                    Print "</tr>";
+            if (!empty($_GET['id'])) {
+                $id = $_GET['id'];
+                $_SESSION['id'] = $id;
+                $id_exists = true;
+                $con = mysqli_connect("localhost", "root", "334675Ld!", "first_db"); //Connect to server
+                mysqli_select_db($con, "first_db") or die("Cannot connect to database"); //connect to database
+                $query = mysqli_query($con, "Select * from list Where id='$id'"); // SQL Query
+                $count = mysqli_num_rows($query);
+
+                if ($count > 0) {
+                    while ($row = mysqli_fetch_array($query)) {
+                        Print "<tr>";
+                        Print '<td align="center">' . $row['id'] . "</td>";
+                        Print '<td align="center">' . $row['details'] . "</td>";
+                        Print '<td align="center">' . $row['date_posted'] . " - " . $row['time_posted'] . "</td>";
+                        Print '<td align="center">' . $row['date_edited'] . " - " . $row['time_edited'] . "</td>";
+                        Print '<td align="center">' . $row['public_'] . "</td>";
+                        Print "</tr>";
+                    }
+                } else {
+                    $id_exists = false;
                 }
-            } else {
-                $id_exists = false;
             }
-        }
         ?>
     </table>
     <br/>
@@ -79,11 +80,13 @@
         $id = $_SESSION['id'];
         $time = strftime("%X");//time
         $date = strftime("%B %d, %Y");//date
+
         foreach ($_POST['public'] as $list) {
             if ($list != null) {
                 $public = "yes";
             }
         }
+
         mysqli_query($con, "UPDATE list SET details='$details', public_='$public', date_edited='$date', time_edited='$time' WHERE id='$id'");
         header("location: home.php");
     }
