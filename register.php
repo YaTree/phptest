@@ -1,13 +1,3 @@
-<?php
-if(isset($_POST['SubmitButton'])){ //check if form was submitted
-    $input = $_POST['inputText']; //get input text
-    $message = "Success! You entered: ".$input;
-} else {
- echo "hahahaha not submited";
-}
-?>
-
-
 <html>
 <head>
     <title>My first PHP website</title>
